@@ -30,9 +30,13 @@ class MiddlewareTest extends Orchestra\Testbench\TestCase
 
     public function test_middleware()
     {
-        $response = $this->get('/');
+        Illuminate\Support\Facades\Route::get('/', function () {
+            return 'Hello, World!';
+        });
 
-        $response->assertHeader('x-frame-options');
-        $response->assertHeader('content-security-policy');
+        $headers = $this->get('/')->response->headers->all();
+
+        $this->assertArrayHasKey('x-frame-options', $headers);
+        $this->assertArrayHasKey('content-security-policy', $headers);
     }
 }

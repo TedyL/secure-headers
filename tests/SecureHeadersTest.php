@@ -42,7 +42,7 @@ class SecureHeadersTest extends TestCase
 
     public function test_file_not_found()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         SecureHeaders::fromFile(__DIR__.'/not-found');
     }
