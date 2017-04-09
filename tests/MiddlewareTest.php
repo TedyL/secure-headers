@@ -3,6 +3,13 @@
 class MiddlewareTest extends Orchestra\Testbench\TestCase
 {
     /**
+     * Wrapper laravel response for different version.
+     *
+     * @var string
+     */
+    protected $_response = 'response';
+
+    /**
      * Get package providers.
      *
      * @param \Illuminate\Foundation\Application $app
@@ -34,7 +41,7 @@ class MiddlewareTest extends Orchestra\Testbench\TestCase
             return 'Hello World!';
         });
 
-        $headers = $this->get('/')->response->headers->all();
+        $headers = $this->get('/')->{$this->_response}->headers->all();
 
         $this->assertArrayHasKey('x-frame-options', $headers);
         $this->assertArrayHasKey('content-security-policy', $headers);
@@ -46,7 +53,7 @@ class MiddlewareTest extends Orchestra\Testbench\TestCase
             return response()->download(__DIR__.'/../README.md');
         });
 
-        $headers = $this->get('/')->response->headers->all();
+        $headers = $this->get('/')->{$this->_response}->headers->all();
 
         $this->assertArrayNotHasKey('x-content-type-options', $headers);
         $this->assertArrayNotHasKey('content-security-policy', $headers);
